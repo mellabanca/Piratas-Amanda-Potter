@@ -3,10 +3,12 @@ const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 var engine, world;
-
+var angles;
 var chaopotter;
 var hogwartspassado;
 var castelomagico, castelomagicofoto;
+var paviocurto;
+var pomodeouro;
 
 function preload() {
  hogwartspassado = loadImage("./assets/background.gif");
@@ -27,6 +29,10 @@ function setup() {
 
   castelomagico = Bodies.rectangle(160, 350, 160, 310, chaopotter_options);
   World.add(world, castelomagico);
+  angles=20;
+paviocurto=new Paviocurto(180,110,130,100,angles);
+pomodeouro = new PomodeOuro(paviocurto.x, paviocurto.y);
+
  
 }
 
@@ -42,4 +48,6 @@ function draw() {
   imageMode(CENTER);
   image(castelomagicofoto, castelomagico.position.x, castelomagico.position.y, 160, 310);
   pop();
+  paviocurto.mostrar();
+  pomodeouro.mostrar();
 }
