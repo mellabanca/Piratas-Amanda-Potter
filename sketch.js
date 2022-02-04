@@ -9,6 +9,8 @@ var hogwartspassado;
 var castelomagico, castelomagicofoto;
 var paviocurto;
 var pomodeouro;
+var harry=[];
+
 
 function preload() {
  hogwartspassado = loadImage("./assets/background.gif");
@@ -32,7 +34,6 @@ function setup() {
   angleMode(DEGREES);
   angles=20;
 paviocurto=new Paviocurto(180,110,130,100,angles);
-pomodeouro = new PomodeOuro(paviocurto.x, paviocurto.y);
 
  
 }
@@ -50,15 +51,28 @@ function draw() {
   image(castelomagicofoto, castelomagico.position.x, castelomagico.position.y, 160, 310);
   pop();
   paviocurto.mostrar();
-  pomodeouro.mostrar();
+  for(var hermione=0;hermione<harry.length;hermione++){
+    bombar(harry[hermione,hermione])
+  }
 }
 function keyReleased(){
   if(keyCode===DOWN_ARROW){
-    pomodeouro.leviosa();
+    harry[harry.length-1].leviosa();
   }
 }
+function keyPressed(){
+  if(keyCode===DOWN_ARROW){
+   var pomodeouro = new PomodeOuro(paviocurto.x, paviocurto.y);
+   harry.push(pomodeouro)
 
+  }
+}
+function bombar (bola,i){
+if(bola){
+  bola.mostrar();
+}
 
+}
 
 
 
