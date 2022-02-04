@@ -29,6 +29,7 @@ function setup() {
 
   castelomagico = Bodies.rectangle(160, 350, 160, 310, chaopotter_options);
   World.add(world, castelomagico);
+  angleMode(DEGREES);
   angles=20;
 paviocurto=new Paviocurto(180,110,130,100,angles);
 pomodeouro = new PomodeOuro(paviocurto.x, paviocurto.y);
@@ -51,3 +52,26 @@ function draw() {
   paviocurto.mostrar();
   pomodeouro.mostrar();
 }
+function keyReleased(){
+  if(keyCode===DOWN_ARROW){
+    pomodeouro.leviosa();
+  }
+}
+
+
+
+
+
+
+//exemplos de Matrizes
+//Matriz simples
+var corvinal = [52, 13, 81, 46];
+//console.log(corvinal[3]);
+
+//Matriz com tipos de dados diferentes
+var lufalufa = ["Amanda", 12, true];
+//console.log(lufalufa[1]);
+
+//Matriz de Matrizes
+var varinha = [[1,2], [8,9], [15,16]];
+//console.log(varinha[0][1]);
