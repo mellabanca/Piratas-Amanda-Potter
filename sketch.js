@@ -10,6 +10,7 @@ var castelomagico, castelomagicofoto;
 var paviocurto;
 var pomodeouro;
 var harry=[];
+var voldemort;
 
 
 function preload() {
@@ -31,10 +32,12 @@ function setup() {
 
   castelomagico = Bodies.rectangle(160, 350, 160, 310, chaopotter_options);
   World.add(world, castelomagico);
+
   angleMode(DEGREES);
   angles=20;
-paviocurto=new Paviocurto(180,110,130,100,angles);
+  paviocurto=new Paviocurto(180,110,130,100,angles);
 
+  voldemort = new Voldemort(width-79, height-60, 170, 170, -80);  
  
 }
 
@@ -51,6 +54,11 @@ function draw() {
   image(castelomagicofoto, castelomagico.position.x, castelomagico.position.y, 160, 310);
   pop();
   paviocurto.mostrar();
+
+  Matter.Body.setVelocity(voldemort.body, {x: -0.9, y:0});
+
+  voldemort.mostrar();
+
   for(var hermione=0;hermione<harry.length;hermione++){
     bombar(harry[hermione,hermione])
   }
