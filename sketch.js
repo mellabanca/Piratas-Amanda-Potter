@@ -12,10 +12,14 @@ var pomodeouro;
 var harry=[];
 var voldemort;
 var ataquedovoldemort=[];
+var voldemortAnimation = [];
+var voldemortDados, voldemortSpritesheet;
 
 function preload() {
  hogwartspassado = loadImage("./assets/background.gif");
  castelomagicofoto = loadImage("./assets/tower.png");
+ voldemortDados = loadJSON("./assets/boat/boat.json");
+ voldemortSpritesheet = loadImage("./assets/boat/boat.png");
 }
 function setup() {
 
@@ -37,7 +41,13 @@ function setup() {
   angles=20;
   paviocurto=new Paviocurto(180,110,130,100,angles);
 
- 
+  var voldemortFrames = voldemortDados.frames;
+
+  for(var i = 0; i < voldemortFrames; i++){
+    var pos = voldemortFrames[i].position;
+    var img = voldemortSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
+    voldemortAnimation.push(img);
+  }
 }
 
 function draw() {
@@ -57,7 +67,8 @@ function draw() {
   magiadomal();
 
   for(var hermione=0;hermione<harry.length;hermione++){
-    bombar(harry[hermione,hermione])
+    bombar(harry[hermione],hermione);
+    diabrets(hermione);
   }
 }
 function keyReleased(){
@@ -72,9 +83,12 @@ function keyPressed(){
 
   }
 }
-function bombar (bola,i){
+function bombar (bola,index){
 if(bola){
   bola.mostrar();
+  if(bola.body.position.x >= width || bola.body.position.y >= height-50){
+    bola.remover(index);
+  } 
 }
 
 }
@@ -85,7 +99,7 @@ function magiadomal(){
        var positions=[-40,-60,-70,-20];
        var position=random(positions);
      
-       var voldemort = new Voldemort(width, height -100, 170, 170, position);
+       var voldemort = new Voldemort(width, height -100, 170, 170, position, voldemortAnimation);
        ataquedovoldemort.push(voldemort);
     }
 
@@ -95,12 +109,27 @@ function magiadomal(){
         Matter.Body.setVelocity(ataquedovoldemort[malfoy].body, {x: -0.9, y:0});
 
         ataquedovoldemort[malfoy].mostrar();
+        ataquedovoldemort[malfoy].animar();
       }
     }
 
   }else{
-  var voldemort = new Voldemort(width, height-60, 170, 170, -60);
+  var voldemort = new Voldemort(width, height-60, 170, 170, -60, voldemortAnimation);
   ataquedovoldemort.push(voldemort); 
+  }
+}
+
+function diabrets(index){
+  for (var i = 0; i < ataquedovoldemort.length; i++){
+    if(harry[index] !== undefined && ataquedovoldemort[i] !== undefined){
+      var vassoura = Matter.SAT.collides(harry[index].body, ataquedovoldemort[i].body);
+      if(vassoura.collided){
+        ataquedovoldemort[i].remover(i);
+
+        Matter.World.remove(world, harry[index].body);
+        delete harry[index];
+      }
+    }
   }
 }
 
