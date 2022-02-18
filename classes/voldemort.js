@@ -7,6 +7,7 @@ class Voldemort {
         this.image = loadImage("./assets/boat.png");
         this.animation = voldemortAnimation;
         this.speed = 0.05;
+        this.quebrada = false;
         World.add(world,this.body);
     }
 
@@ -15,6 +16,12 @@ class Voldemort {
     }
 
     remover(index){
+        this.animation = quebravarinhaanimation;
+        this.speed = 0.05;
+        this.w = 300;
+        this.h = 300;
+        this.quebrada = true;
+
         setTimeout(() => {
             Matter.World.remove(world, ataquedovoldemort[index].body);
             delete ataquedovoldemort[index];
@@ -25,7 +32,7 @@ class Voldemort {
         var pos = this.body.position;
         var angle = this.body.angle;
         var index = floor(this.speed % this.animation.length);
-
+        console.log(this.animation.length)
         push();
         translate(pos.x, pos.y);
         rotate(angle);

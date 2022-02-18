@@ -14,12 +14,21 @@ var voldemort;
 var ataquedovoldemort=[];
 var voldemortAnimation = [];
 var voldemortDados, voldemortSpritesheet;
+var quebravarinhaanimation = [];
+var quebravarinhadado, quebravarinhasprite;
+var pocaoAnimation = [];
+var pocaoDados, pocaoSprite;
+var acertouofeitico = false;
 
 function preload() {
  hogwartspassado = loadImage("./assets/background.gif");
  castelomagicofoto = loadImage("./assets/tower.png");
  voldemortDados = loadJSON("./assets/boat/boat.json");
  voldemortSpritesheet = loadImage("./assets/boat/boat.png");
+ quebravarinhadado = loadJSON("./assets/boat/brokenboat.json");
+ quebravarinhasprite = loadImage("./assets/boat/brokenboat.png");
+ pocaoDados = loadJSON("./assets/waterSplash/waterSplash.json");
+ pocaoSprite = loadImage("./assets/waterSplash/waterSplash.png");
 }
 function setup() {
 
@@ -43,10 +52,26 @@ function setup() {
 
   var voldemortFrames = voldemortDados.frames;
 
-  for(var i = 0; i < voldemortFrames; i++){
+  for(var i = 0; i < voldemortFrames.length; i++){
     var pos = voldemortFrames[i].position;
     var img = voldemortSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
     voldemortAnimation.push(img);
+  }
+
+  var quebravarinhaFrames = quebravarinhadado.frames;
+
+  for(var i = 0; i < quebravarinhaFrames.length; i++){
+    var pos = quebravarinhaFrames[i].position;
+    var img = quebravarinhasprite.get(pos.x, pos.y, pos.w, pos.h);
+    quebravarinhaanimation.push(img);
+  }
+
+  var pocaoFrames = pocaoDados.frames;
+
+  for(var i = 0; i < pocaoFrames.length; i++){
+    var pos = pocaoFrames[i].position;
+    var img = pocaoSprite.get(pos.x, pos.y, pos.w, pos.h);
+    pocaoAnimation.push(img);
   }
 }
 
@@ -86,6 +111,7 @@ function keyPressed(){
 function bombar (bola,index){
 if(bola){
   bola.mostrar();
+  bola.animar();
   if(bola.body.position.x >= width || bola.body.position.y >= height-50){
     bola.remover(index);
   } 
@@ -110,6 +136,11 @@ function magiadomal(){
 
         ataquedovoldemort[malfoy].mostrar();
         ataquedovoldemort[malfoy].animar();
+        var guerradefeiticos = Matter.SAT.collides(castelomagico, ataquedovoldemort[malfoy].body);
+        if(guerradefeiticos.collided && !ataquedovoldemort[malfoy].quebrada){
+          acertouofeitico = true;
+          acabouharry();
+        }
       }
     }
 
@@ -133,9 +164,22 @@ function diabrets(index){
   }
 }
 
+function acabouharry(){
+  swal({
+    title: "Acabou o Quadribol!",
+    text: "Lufa-Lufa venceu!",
+    imageUrl: "https://raw.githubusercontent.com/whitehatjr/PiratesInvasion/main/assets/boat.png",
+    imageSize: "150x150",
+    confirmButtonText: "Jogar Novamente"
+  },
+  function(apertouoBotao){
+    if(apertouoBotao){
+      location.reload();
+    }
+  });
+}
 
-
-//exemplos de Matrizes
+/*//exemplos de Matrizes
 //Matriz simples
 var corvinal = [52, 13, 81, 46];
 //console.log(corvinal[3]);
@@ -146,4 +190,4 @@ var lufalufa = ["Amanda", 12, true];
 
 //Matriz de Matrizes
 var varinha = [[1,2], [8,9], [15,16]];
-//console.log(varinha[0][1]);
+//console.log(varinha[0][1]);*/
